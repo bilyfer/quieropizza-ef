@@ -46,5 +46,30 @@ namespace QuieroPizza.Web.Controllers
 
             return RedirectToAction("Index");
         }
+
+        public ActionResult Delete(int id)
+        {
+            var productosBL = new ProductosBL();
+            var producto = productosBL.ObtenerProducto(id);
+
+            return View(producto);
+        }
+
+        [HttpPost]
+        public ActionResult Delete(Producto producto)
+        {
+            var productosBL = new ProductosBL();
+            productosBL.Eliminar(producto);
+
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult Details(int id)
+        {
+            var productosBL = new ProductosBL();
+            var producto = productosBL.ObtenerProducto(id);
+
+            return View(producto);
+        }
     }
 }

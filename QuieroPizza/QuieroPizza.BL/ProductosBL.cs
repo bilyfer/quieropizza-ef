@@ -38,5 +38,13 @@ namespace QuieroPizza.BL
 
             _contexto.SaveChanges();
         }
+
+        public void Eliminar(Producto producto)
+        {
+            var productoExistente = _contexto.Productos.Find(producto.Id);
+
+            _contexto.Productos.Remove(productoExistente);
+            _contexto.SaveChanges();
+        }
     }
 }
