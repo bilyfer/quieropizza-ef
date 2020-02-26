@@ -1,4 +1,5 @@
 ﻿using QuieroPizza.BL;
+using System.Web;
 using System.Web.Mvc;
 
 namespace QuieroPizza.Web.Controllers
@@ -22,9 +23,16 @@ namespace QuieroPizza.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(Producto nuevoProducto)
+        public ActionResult Create(Producto nuevoProducto, HttpPostedFileBase imagen)
         {
             var productosBL = new ProductosBL();
+
+            if (imagen != null)
+            {
+                nuevoProducto.UrlImagen = GuardarImagen(imagen);
+            }
+
+
             productosBL.Guardar(nuevoProducto);
 
             return RedirectToAction("Index");
@@ -70,6 +78,14 @@ namespace QuieroPizza.Web.Controllers
             var producto = productosBL.ObtenerProducto(id);
 
             return View(producto);
+        }
+
+        private string GuardarImagen(HttpPostedFileBase imagen)
+        {
+            string path = Server.MapPath("~/Imagenes/" + imagen.FileName);
+            imagen.SaveAs(path);
+
+            return "/Imagenes/" + imagen.FileName;
         }
     }
 }
